@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Uploaded files (optional)
+uploads/
+
+# Coverage reports (if you run tests)
+coverage/
+
+# Build outputs (if using TypeScript or bundlers)
+dist/
+build/
+
+# PM2 logs (if you use PM2 in production)
+pids
+logs
+*.pid
+*.seed
+*.pid.lock
+configs
