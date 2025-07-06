@@ -40,7 +40,8 @@ const AddSalary = () => {
   }, []);
 
   const isDemoUser =
-    userEmail === "BossMan@gmail.com" || userEmail === "testerapp2232@gmail.com";
+    userEmail === "BossMan@gmail.com" ||
+    userEmail === "testerapp2232@gmail.com";
 
   const onDepartmentChange = async (event) => {
     const depId = event.target.value;
@@ -69,14 +70,17 @@ const AddSalary = () => {
         formData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
+        },
       );
       if (res.data.success) {
         navigate("/admin-dashboard/employees");
       }
     } catch (err) {
       if (err.response?.status === 403) {
-        setError(err.response.data.message || "🚫 Demo accounts can't add salary data.");
+        setError(
+          err.response.data.message ||
+            "🚫 Demo accounts can't add salary data.",
+        );
       } else if (err.response?.data?.error) {
         setError(err.response.data.error);
       } else {
@@ -112,7 +116,9 @@ const AddSalary = () => {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col">
-                <label htmlFor="department" className="mb-2">🏢 Department</label>
+                <label htmlFor="department" className="mb-2">
+                  🏢 Department
+                </label>
                 <select
                   id="department"
                   name="department"
@@ -121,7 +127,9 @@ const AddSalary = () => {
                   required
                   className="rounded-md p-3 border-2 border-green-600 focus:outline-none focus:ring-2 focus:ring-green-700 bg-green-50 hover:bg-green-100 transition w-full"
                 >
-                  <option value="" disabled>-- Choose Department --</option>
+                  <option value="" disabled>
+                    -- Choose Department --
+                  </option>
                   {departments.map((dep) => (
                     <option key={dep._id} value={dep._id}>
                       {dep.dep_name}
@@ -131,7 +139,9 @@ const AddSalary = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="employeeId" className="mb-2">👩‍💼 Employee</label>
+                <label htmlFor="employeeId" className="mb-2">
+                  👩‍💼 Employee
+                </label>
                 <select
                   id="employeeId"
                   name="employeeId"
@@ -141,7 +151,9 @@ const AddSalary = () => {
                   disabled={!employees.length}
                   className="rounded-md p-3 border-2 border-green-600 focus:outline-none focus:ring-2 focus:ring-green-700 bg-green-50 disabled:bg-green-200 transition w-full"
                 >
-                  <option value="" disabled>-- Select Employee --</option>
+                  <option value="" disabled>
+                    -- Select Employee --
+                  </option>
                   {employees.map((emp) => (
                     <option key={emp._id} value={emp._id}>
                       {emp.employeeId} - {emp.name || "No Name"}
@@ -151,7 +163,9 @@ const AddSalary = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="basicSalary" className="mb-2">💵 Basic Salary</label>
+                <label htmlFor="basicSalary" className="mb-2">
+                  💵 Basic Salary
+                </label>
                 <input
                   type="number"
                   id="basicSalary"
@@ -166,7 +180,9 @@ const AddSalary = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="allowances" className="mb-2">🪙 Allowances</label>
+                <label htmlFor="allowances" className="mb-2">
+                  🪙 Allowances
+                </label>
                 <input
                   type="number"
                   id="allowances"
@@ -181,7 +197,9 @@ const AddSalary = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="deductions" className="mb-2">➖ Deductions</label>
+                <label htmlFor="deductions" className="mb-2">
+                  ➖ Deductions
+                </label>
                 <input
                   type="number"
                   id="deductions"
@@ -196,7 +214,9 @@ const AddSalary = () => {
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="payDate" className="mb-2">📅 Pay Date</label>
+                <label htmlFor="payDate" className="mb-2">
+                  📅 Pay Date
+                </label>
                 <input
                   type="date"
                   id="payDate"

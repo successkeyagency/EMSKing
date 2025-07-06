@@ -8,7 +8,6 @@ const Settings = () => {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin" || user?.email === "BossMan@gmail.com";
 
-
   const [setting, setSetting] = useState({
     userId: user._id,
     oldPassword: "",
@@ -49,7 +48,7 @@ const Settings = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -57,7 +56,10 @@ const Settings = () => {
       }
     } catch (error) {
       if (error.response?.status === 403) {
-        setError(error.response.data.message || "This is a demo account. You can't change the password.");
+        setError(
+          error.response.data.message ||
+            "This is a demo account. You can't change the password.",
+        );
       } else if (error.response?.data?.error) {
         setError(`❌ ${error.response.data.error}`);
       } else {
@@ -73,8 +75,12 @@ const Settings = () => {
       <section className="flex justify-center items-center mt-16 bg-gradient-to-br from-gray-100 p-6">
         <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8 space-y-6">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800">🔒 Update Password</h2>
-            <p className="text-gray-500 text-sm mt-1">Stay secure. Keep your credentials safe! 🔐</p>
+            <h2 className="text-3xl font-bold text-gray-800">
+              🔒 Update Password
+            </h2>
+            <p className="text-gray-500 text-sm mt-1">
+              Stay secure. Keep your credentials safe! 🔐
+            </p>
           </div>
 
           {error && (

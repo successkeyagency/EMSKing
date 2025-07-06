@@ -20,7 +20,7 @@ const TList = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       if (data.success) {
         setLeaves(data.leaves);
@@ -38,7 +38,7 @@ const TList = () => {
   }, []);
 
   const filteredLeaves = leaves.filter((leave) =>
-    leave.leaveType.toLowerCase().includes(searchTerm.toLowerCase())
+    leave.leaveType.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   if (loading)
@@ -52,7 +52,6 @@ const TList = () => {
     <div className={isAdmin ? "lg:pl-64" : ""}>
       <section className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 p-4 sm:p-6 md:p-8">
         <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
-
           {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
@@ -111,7 +110,9 @@ const TList = () => {
                       title={`Reason: ${leave.reason || "No additional notes"}`}
                     >
                       <td className="py-3 px-6 font-semibold">{i + 1}</td>
-                      <td className="py-3 px-6 font-medium">{leave.leaveType}</td>
+                      <td className="py-3 px-6 font-medium">
+                        {leave.leaveType}
+                      </td>
                       <td className="py-3 px-6">
                         {new Date(leave.startDate).toLocaleDateString()}
                       </td>
@@ -127,11 +128,12 @@ const TList = () => {
                             leave.status === "approved"
                               ? "bg-green-200 text-green-800"
                               : leave.status === "rejected"
-                              ? "bg-red-200 text-red-800"
-                              : "bg-yellow-200 text-yellow-800"
+                                ? "bg-red-200 text-red-800"
+                                : "bg-yellow-200 text-yellow-800"
                           }`}
                         >
-                          {leave.status.charAt(0).toUpperCase() + leave.status.slice(1)}
+                          {leave.status.charAt(0).toUpperCase() +
+                            leave.status.slice(1)}
                         </span>
                       </td>
                     </tr>
@@ -149,7 +151,6 @@ const TList = () => {
               </tbody>
             </table>
           </div>
-
         </div>
       </section>
     </div>

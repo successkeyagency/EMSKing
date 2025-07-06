@@ -16,7 +16,7 @@ const Signin = () => {
     try {
       const response = await axios.post(
         "http://localhost:4000/api/auth/signin",
-        { email, password }
+        { email, password },
       );
       if (response.data.success) {
         login(response.data.user);

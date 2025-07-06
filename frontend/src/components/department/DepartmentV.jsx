@@ -64,7 +64,7 @@ const DepartmentV = () => {
     }
 
     const filtered = departments.filter((dep) =>
-      dep.dep_name.toLowerCase().includes(value.toLowerCase())
+      dep.dep_name.toLowerCase().includes(value.toLowerCase()),
     );
     setFilteredDepartments(filtered);
   };

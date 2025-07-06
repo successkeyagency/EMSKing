@@ -37,11 +37,14 @@ const Edit = () => {
   useEffect(() => {
     const loadEmployee = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/api/employee/${id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        const res = await axios.get(
+          `http://localhost:4000/api/employee/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           },
-        });
+        );
 
         if (res.data.success) {
           const data = res.data.employee;
@@ -80,7 +83,7 @@ const Edit = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       if (res.data.success) {
@@ -122,7 +125,9 @@ const Edit = () => {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <div>
-              <label className="text-gray-700 font-medium text-sm">Full Name</label>
+              <label className="text-gray-700 font-medium text-sm">
+                Full Name
+              </label>
               <input
                 type="text"
                 name="name"
@@ -135,7 +140,9 @@ const Edit = () => {
             </div>
 
             <div>
-              <label className="text-gray-700 font-medium text-sm">Marital Status</label>
+              <label className="text-gray-700 font-medium text-sm">
+                Marital Status
+              </label>
               <select
                 name="maritalStatus"
                 value={employeeData.maritalStatus}
@@ -150,7 +157,9 @@ const Edit = () => {
             </div>
 
             <div>
-              <label className="text-gray-700 font-medium text-sm">Designation</label>
+              <label className="text-gray-700 font-medium text-sm">
+                Designation
+              </label>
               <input
                 type="text"
                 name="designation"
@@ -163,7 +172,9 @@ const Edit = () => {
             </div>
 
             <div>
-              <label className="text-gray-700 font-medium text-sm">Salary ($)</label>
+              <label className="text-gray-700 font-medium text-sm">
+                Salary ($)
+              </label>
               <input
                 type="number"
                 name="salary"
@@ -176,7 +187,9 @@ const Edit = () => {
             </div>
 
             <div className="md:col-span-2">
-              <label className="text-gray-700 font-medium text-sm">Department</label>
+              <label className="text-gray-700 font-medium text-sm">
+                Department
+              </label>
               <select
                 name="department"
                 value={employeeData.department}

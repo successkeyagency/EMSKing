@@ -37,52 +37,87 @@ function App() {
                 <AdminD />
               </RoleR>
             </PrivateR>
-          }>
-            <Route index element={<AdminS/>}></Route>
-            <Route path="departments" element={<DepartmentV />} />
-            <Route path="/admin-dashboard/add-department" element={<DepartmentAdd />} />
-            <Route path="/admin-dashboard/departments/edit/:id" element={<DepartmentEdit/>} />
-            <Route path="/admin-dashboard/employees" element={<List/>} />
-            <Route path="/admin-dashboard/add-employee" element={<Add/>} />
-            <Route path="/admin-dashboard/employees/:id" element={<View/>} />
-            <Route path="/admin-dashboard/employees/edit/:id" element={<Edit/>} />
-            <Route path="/admin-dashboard/employees/salary/:id" element={<ViewSal/>} />
-            <Route path="/admin-dashboard/salary/add" element={<Addsal/>}>
+          }
+        >
+          <Route index element={<AdminS />}></Route>
+          <Route path="departments" element={<DepartmentV />} />
+          <Route
+            path="/admin-dashboard/add-department"
+            element={<DepartmentAdd />}
+          />
+          <Route
+            path="/admin-dashboard/departments/edit/:id"
+            element={<DepartmentEdit />}
+          />
+          <Route path="/admin-dashboard/employees" element={<List />} />
+          <Route path="/admin-dashboard/add-employee" element={<Add />} />
+          <Route path="/admin-dashboard/employees/:id" element={<View />} />
+          <Route
+            path="/admin-dashboard/employees/edit/:id"
+            element={<Edit />}
+          />
+          <Route
+            path="/admin-dashboard/employees/salary/:id"
+            element={<ViewSal />}
+          />
+          <Route
+            path="/admin-dashboard/salary/add"
+            element={<Addsal />}
+          ></Route>
 
-            
-            </Route>
-
-            <Route path="/admin-dashboard/setting" element={<Settings />}></Route>
-            <Route path="/admin-dashboard/attendance" element={<Attendance />}></Route>
-          <Route path="/admin-dashboard/attendance-report" element={<AttendanceReport />}></Route>
-
+          <Route path="/admin-dashboard/setting" element={<Settings />}></Route>
+          <Route
+            path="/admin-dashboard/attendance"
+            element={<Attendance />}
+          ></Route>
+          <Route
+            path="/admin-dashboard/attendance-report"
+            element={<AttendanceReport />}
+          ></Route>
 
           <Route path="/admin-dashboard/leaves" element={<TTable />}></Route>
-          <Route path="/admin-dashboard/leaves/:id" element={<TDetail />}></Route>
-          <Route path="/admin-dashboard/employees/leaves/:id" element={<TList />}></Route>
-
+          <Route
+            path="/admin-dashboard/leaves/:id"
+            element={<TDetail />}
+          ></Route>
+          <Route
+            path="/admin-dashboard/employees/leaves/:id"
+            element={<TList />}
+          ></Route>
         </Route>
-        
 
-        <Route path="/employee-dashboard" 
-        element={
-        <PrivateR>
-          <RoleR requiredRole={["admin", "employee"]}>
-            <EmployeeD />
-          </RoleR>
-        </PrivateR>
-        }
+        <Route
+          path="/employee-dashboard"
+          element={
+            <PrivateR>
+              <RoleR requiredRole={["admin", "employee"]}>
+                <EmployeeD />
+              </RoleR>
+            </PrivateR>
+          }
         >
-          <Route index element={<ESummary />}></Route> 
+          <Route index element={<ESummary />}></Route>
 
-          <Route path="/employee-dashboard/profile/:id" element={<View />}></Route>
-          <Route path="/employee-dashboard/leaves/:id" element={<TList />}></Route>
-          <Route path="/employee-dashboard/add-leave" element={<TAdd />}></Route>
-          <Route path="/employee-dashboard/salary/:id" element={<ViewSal />}></Route>
-          <Route path="/employee-dashboard/setting" element={<Settings />}></Route>
-
-
-
+          <Route
+            path="/employee-dashboard/profile/:id"
+            element={<View />}
+          ></Route>
+          <Route
+            path="/employee-dashboard/leaves/:id"
+            element={<TList />}
+          ></Route>
+          <Route
+            path="/employee-dashboard/add-leave"
+            element={<TAdd />}
+          ></Route>
+          <Route
+            path="/employee-dashboard/salary/:id"
+            element={<ViewSal />}
+          ></Route>
+          <Route
+            path="/employee-dashboard/setting"
+            element={<Settings />}
+          ></Route>
         </Route>
       </Routes>
     </BrowserRouter>

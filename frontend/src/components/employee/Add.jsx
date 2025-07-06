@@ -25,7 +25,8 @@ const Add = () => {
   const navigate = useNavigate();
 
   const isDemoUser =
-    userEmail === "BossMan@gmail.com" || userEmail === "testerapp2232@gmail.com";
+    userEmail === "BossMan@gmail.com" ||
+    userEmail === "testerapp2232@gmail.com";
 
   useEffect(() => {
     (async () => {
@@ -67,9 +68,13 @@ const Add = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:4000/api/employee/add", formPayload, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const res = await axios.post(
+        "http://localhost:4000/api/employee/add",
+        formPayload,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
+      );
 
       if (res.data.success) {
         navigate("/admin-dashboard/employees");
@@ -119,10 +124,39 @@ const Add = () => {
           onSubmit={handleSubmit}
           className="bg-white bg-opacity-20 backdrop-blur-md rounded-lg p-4 shadow-lg grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-3"
         >
-          <InputField label="Full Name 🧑‍💼" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
-          <InputField label="Email 📧" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
-          <InputField label="Employee ID 🆔" name="employeeId" value={formData.employeeId} onChange={handleChange} placeholder="E12345" required />
-          <InputField label="Date of Birth 🎂" type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+          <InputField
+            label="Full Name 🧑‍💼"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="John Doe"
+            required
+          />
+          <InputField
+            label="Email 📧"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="john@example.com"
+            required
+          />
+          <InputField
+            label="Employee ID 🆔"
+            name="employeeId"
+            value={formData.employeeId}
+            onChange={handleChange}
+            placeholder="E12345"
+            required
+          />
+          <InputField
+            label="Date of Birth 🎂"
+            type="date"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            required
+          />
 
           <SelectField
             label="Gender 🚻"
@@ -151,7 +185,14 @@ const Add = () => {
             required
           />
 
-          <InputField label="Designation 💼" name="designation" value={formData.designation} onChange={handleChange} placeholder="Software Engineer" required />
+          <InputField
+            label="Designation 💼"
+            name="designation"
+            value={formData.designation}
+            onChange={handleChange}
+            placeholder="Software Engineer"
+            required
+          />
 
           <SelectField
             label="Department 🏢"
@@ -165,8 +206,25 @@ const Add = () => {
             required
           />
 
-          <InputField label="Salary 💰" type="number" name="salary" value={formData.salary} onChange={handleChange} placeholder="50000" required min="0" />
-          <InputField label="Password 🔑" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="********" required />
+          <InputField
+            label="Salary 💰"
+            type="number"
+            name="salary"
+            value={formData.salary}
+            onChange={handleChange}
+            placeholder="50000"
+            required
+            min="0"
+          />
+          <InputField
+            label="Password 🔑"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="********"
+            required
+          />
 
           <SelectField
             label="Role 🛡️"
@@ -182,7 +240,10 @@ const Add = () => {
           />
 
           <div className="sm:col-span-2">
-            <label htmlFor="image" className="block mb-1 font-semibold text-white cursor-pointer select-none">
+            <label
+              htmlFor="image"
+              className="block mb-1 font-semibold text-white cursor-pointer select-none"
+            >
               Upload Profile Image 📸
             </label>
             <input
@@ -212,9 +273,21 @@ const Add = () => {
   );
 };
 
-const InputField = ({ label, name, type = "text", value, onChange, placeholder, required, min }) => (
+const InputField = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  required,
+  min,
+}) => (
   <div className="relative group">
-    <label htmlFor={name} className="block mb-1 text-white font-semibold text-sm group-hover:text-yellow-300 transition-colors">
+    <label
+      htmlFor={name}
+      className="block mb-1 text-white font-semibold text-sm group-hover:text-yellow-300 transition-colors"
+    >
       {label}
     </label>
     <input
@@ -234,7 +307,10 @@ const InputField = ({ label, name, type = "text", value, onChange, placeholder, 
 
 const SelectField = ({ label, name, value, onChange, options, required }) => (
   <div className="relative group">
-    <label htmlFor={name} className="block mb-1 text-white font-semibold text-sm group-hover:text-yellow-300 transition-colors">
+    <label
+      htmlFor={name}
+      className="block mb-1 text-white font-semibold text-sm group-hover:text-yellow-300 transition-colors"
+    >
       {label}
     </label>
     <select

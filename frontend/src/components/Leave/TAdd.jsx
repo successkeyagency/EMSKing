@@ -23,7 +23,8 @@ const TAdd = () => {
   }, []);
 
   const isDemoUser =
-    userEmail === "BossMan@gmail.com" || userEmail === "testerapp2232@gmail.com";
+    userEmail === "BossMan@gmail.com" ||
+    userEmail === "testerapp2232@gmail.com";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +46,7 @@ const TAdd = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       if (response.data.success) {
@@ -53,7 +54,10 @@ const TAdd = () => {
       }
     } catch (err) {
       if (err?.response?.status === 403) {
-        setError(err.response.data.message || "🚫 Demo users are not allowed to submit leave requests.");
+        setError(
+          err.response.data.message ||
+            "🚫 Demo users are not allowed to submit leave requests.",
+        );
       } else {
         setError(err.response?.data?.error || "Something went wrong 😓");
       }

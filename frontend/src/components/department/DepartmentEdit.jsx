@@ -34,11 +34,13 @@ const DepartmentEdit = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         if (data.success) setDepartment(data.department);
       } catch (error) {
-        alert(error.response?.data?.error || "Failed to fetch department data.");
+        alert(
+          error.response?.data?.error || "Failed to fetch department data.",
+        );
       } finally {
         setDepLoading(false);
       }
@@ -48,7 +50,8 @@ const DepartmentEdit = () => {
   }, [id]);
 
   const isDemoUser =
-    userEmail === "BossMan@gmail.com" || userEmail === "testerapp2232@gmail.com";
+    userEmail === "BossMan@gmail.com" ||
+    userEmail === "testerapp2232@gmail.com";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,7 +74,7 @@ const DepartmentEdit = () => {
         department,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
+        },
       );
       if (data.success) navigate("/admin-dashboard/departments");
     } catch (error) {
@@ -120,7 +123,11 @@ const DepartmentEdit = () => {
               stroke="currentColor"
               className="w-5 h-5 mr-2"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Back to Departments
           </motion.button>

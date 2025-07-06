@@ -20,7 +20,8 @@ const TDetail = () => {
   }, []);
 
   const isDemoUser =
-    userEmail === "BossMan@gmail.com" || userEmail === "testerapp2232@gmail.com";
+    userEmail === "BossMan@gmail.com" ||
+    userEmail === "testerapp2232@gmail.com";
 
   useEffect(() => {
     const loadLeaveDetails = async () => {
@@ -31,7 +32,7 @@ const TDetail = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          }
+          },
         );
         if (response.data.success) {
           setLeave(response.data.leave);
@@ -49,7 +50,9 @@ const TDetail = () => {
 
   const handleStatusUpdate = async (leaveId, newStatus) => {
     if (isDemoUser) {
-      setErrorMsg("🚫 Demo users are not allowed to approve or reject leave requests.");
+      setErrorMsg(
+        "🚫 Demo users are not allowed to approve or reject leave requests.",
+      );
       setTimeout(() => setErrorMsg(""), 4000);
       return;
     }
@@ -62,7 +65,7 @@ const TDetail = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       if (response.data.success) {
         navigate("/admin-dashboard/leaves");
@@ -74,10 +77,18 @@ const TDetail = () => {
   };
 
   if (loading)
-    return <div className="text-center text-xl py-20">⏳ Loading leave details...</div>;
+    return (
+      <div className="text-center text-xl py-20">
+        ⏳ Loading leave details...
+      </div>
+    );
 
   if (!leave)
-    return <div className="text-center text-red-500 py-20">⚠️ No leave data found!</div>;
+    return (
+      <div className="text-center text-red-500 py-20">
+        ⚠️ No leave data found!
+      </div>
+    );
 
   return (
     <>
@@ -111,23 +122,22 @@ const TDetail = () => {
 
             <div className="flex-1 w-full space-y-5">
               {[
-  ["Name", leave.employeeId?.userId?.name || "N/A"],
-  ["Employee ID", leave.employeeId?.employeeId || "N/A"],
-  ["Department", leave.employeeId?.department?.dep_name || "N/A"],
-  ["Leave Type", leave.leaveType || "N/A"],
-  ["Reason", leave.reason || "N/A"],
-  ["Start Date", new Date(leave.startDate).toLocaleDateString()],
-  ["End Date", new Date(leave.endDate).toLocaleDateString()],
-].map(([label, value]) => (
-  <div
-    key={label}
-    className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b pb-2"
-  >
-    <span className="font-medium text-gray-600">{label}:</span>
-    <span className="text-gray-900">{value}</span>
-  </div>
-))
-}
+                ["Name", leave.employeeId?.userId?.name || "N/A"],
+                ["Employee ID", leave.employeeId?.employeeId || "N/A"],
+                ["Department", leave.employeeId?.department?.dep_name || "N/A"],
+                ["Leave Type", leave.leaveType || "N/A"],
+                ["Reason", leave.reason || "N/A"],
+                ["Start Date", new Date(leave.startDate).toLocaleDateString()],
+                ["End Date", new Date(leave.endDate).toLocaleDateString()],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b pb-2"
+                >
+                  <span className="font-medium text-gray-600">{label}:</span>
+                  <span className="text-gray-900">{value}</span>
+                </div>
+              ))}
 
               <div className="pt-4">
                 <span className="font-semibold text-lg mr-4">
@@ -157,8 +167,8 @@ const TDetail = () => {
                       leave.status.toLowerCase() === "approved"
                         ? "bg-green-600"
                         : leave.status.toLowerCase() === "rejected"
-                        ? "bg-red-600"
-                        : "bg-yellow-500"
+                          ? "bg-red-600"
+                          : "bg-yellow-500"
                     }`}
                   >
                     {leave.status}

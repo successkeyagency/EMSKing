@@ -26,7 +26,9 @@ export const DepartmentButtons = ({ Id, onDepartmentDelete, isDemoUser }) => {
       return;
     }
 
-    const confirmDelete = window.confirm("Are you sure you want to delete this department?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this department?",
+    );
     if (confirmDelete) {
       try {
         const response = await axios.delete(
@@ -35,7 +37,7 @@ export const DepartmentButtons = ({ Id, onDepartmentDelete, isDemoUser }) => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          }
+          },
         );
 
         if (response.data.success) {

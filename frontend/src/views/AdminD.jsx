@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/authContext';
-import { useNavigate, Outlet } from 'react-router-dom';
-import AdminSB from '../components/dashboard/AdminSB';
-import Navbar from '../components/dashboard/Navbar';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/authContext";
+import { useNavigate, Outlet } from "react-router-dom";
+import AdminSB from "../components/dashboard/AdminSB";
+import Navbar from "../components/dashboard/Navbar";
 
 const AdminD = () => {
   const { user, loading } = useAuth();
@@ -10,11 +10,11 @@ const AdminD = () => {
 
   // Mobile sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/signin');
+      navigate("/signin");
     }
   }, [loading, user, navigate]);
 
@@ -28,12 +28,10 @@ const AdminD = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
-
       {/* Sidebar */}
       <AdminSB sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="flex flex-col flex-1">
-
         {/* Navbar with hamburger */}
         <Navbar toggleSidebar={toggleSidebar} />
 
