@@ -12,7 +12,7 @@ const Attendance = () => {
   const fetchAttendance = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:4000/api/attendance", {
+      const res = await axios.get("https://emsking-backend-server.vercel.app/api/attendance", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

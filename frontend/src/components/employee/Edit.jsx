@@ -38,7 +38,7 @@ const Edit = () => {
     const loadEmployee = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/api/employee/${id}`,
+          `https://emsking-backend-server.vercel.app/api/employee/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -77,7 +77,7 @@ const Edit = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/employee/${id}`,
+        `https://emsking-backend-server.vercel.app/api/employee/${id}`,
         employeeData,
         {
           headers: {

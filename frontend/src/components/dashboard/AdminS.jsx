@@ -42,7 +42,7 @@ const AdminS = () => {
     async function fetchData() {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/dashboard/summary",
+          "https://emsking-backend-server.vercel.app/api/dashboard/summary",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
