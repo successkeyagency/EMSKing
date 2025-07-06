@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import EmployeSB from "../components/EmployeeDashboard/EmployeSB";
-import ENavbar from "../components/EmployeeDashboard/Enavbar";
+import ENavbar from "../components/EmployeeDashboard/ENavbar";
 
 const EmployeeD = () => {
   return (
