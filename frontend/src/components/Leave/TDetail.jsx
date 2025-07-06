@@ -49,13 +49,13 @@ const TDetail = () => {
   }, [id]);
 
   const handleStatusUpdate = async (leaveId, newStatus) => {
-    if (isDemoUser) {
-      setErrorMsg(
-        "🚫 Demo users are not allowed to approve or reject leave requests.",
-      );
-      setTimeout(() => setErrorMsg(""), 4000);
-      return;
-    }
+    // if (isDemoUser) {
+    //   setErrorMsg(
+    //     "🚫 Demo users are not allowed to approve or reject leave requests.",
+    //   );
+    //   setTimeout(() => setErrorMsg(""), 4000);
+    //   return;
+    // }
 
     try {
       const response = await axios.put(

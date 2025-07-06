@@ -61,11 +61,11 @@ const DepartmentEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isDemoUser) {
-      setErrorMsg("🚫 Demo users are not allowed to update departments.");
-      setTimeout(() => setErrorMsg(""), 4000);
-      return;
-    }
+    // if (isDemoUser) {
+    //   setErrorMsg("🚫 Demo users are not allowed to update departments.");
+    //   setTimeout(() => setErrorMsg(""), 4000);
+    //   return;
+    // }
 
     setSubmitLoading(true);
     try {
