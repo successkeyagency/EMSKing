@@ -27,7 +27,7 @@ const TDetail = () => {
     const loadLeaveDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/leave/detail/${id}`,
+          `https://emsking-backend-server.vercel.app/api/leave/detail/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -59,7 +59,7 @@ const TDetail = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/leave/${leaveId}`,
+        `https://emsking-backend-server.vercel.app/api/leave/${leaveId}`,
         { status: newStatus },
         {
           headers: {

@@ -14,7 +14,7 @@ const List = () => {
   useEffect(() => {
     const loadEmployeeData = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/employee", {
+        const res = await axios.get("https://emsking-backend-server.vercel.app/api/employee", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

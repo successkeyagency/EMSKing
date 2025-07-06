@@ -6,7 +6,7 @@ export const AttendanceHelper = ({ status, employeeId, statusChange }) => {
   const updateStatus = async (newStatus) => {
     try {
       await axios.put(
-        "http://localhost:4000/api/attendance/update",
+        "https://emsking-backend-server.vercel.app/api/attendance/update",
         { employeeId, status: newStatus },
         {
           headers: {
