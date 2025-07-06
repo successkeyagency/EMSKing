@@ -41,11 +41,14 @@ const AdminS = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axios.get("http://localhost:4000/api/dashboard/summary", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        const { data } = await axios.get(
+          "http://localhost:4000/api/dashboard/summary",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           },
-        });
+        );
         setSummary(data);
       } catch (err) {
         if (err.response) alert(err.response.data.error);
@@ -162,7 +165,9 @@ const AdminS = () => {
         </div>
 
         <section>
-          <h2 className="text-3xl font-semibold mb-6 text-center">📅 Leave Summary</h2>
+          <h2 className="text-3xl font-semibold mb-6 text-center">
+            📅 Leave Summary
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-md mx-auto">
             <SummaryC
               icon={<FaFileAlt />}

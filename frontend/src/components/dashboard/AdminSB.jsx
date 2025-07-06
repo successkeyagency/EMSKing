@@ -17,7 +17,6 @@ const AdminSB = ({ sidebarOpen, toggleSidebar }) => {
   return (
     <>
       <aside className="hidden lg:flex fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 shadow-xl rounded-br-3xl flex flex-col justify-between z-[1]">
-
         <header className="flex items-center justify-center h-20 bg-white rounded-tr-3xl shadow-lg select-none p-4">
           <img
             src={assets.EMSKing_Logo}
@@ -60,7 +59,6 @@ const AdminSB = ({ sidebarOpen, toggleSidebar }) => {
             SuccessKeyAgency LLC
           </a>
         </footer>
-
       </aside>
 
       <aside

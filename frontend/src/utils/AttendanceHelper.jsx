@@ -12,7 +12,7 @@ export const AttendanceHelper = ({ status, employeeId, statusChange }) => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       statusChange();
     } catch (error) {

@@ -21,18 +21,18 @@ const Attendance = () => {
       if (res.data.success) {
         let count = 1;
         const formatted = res.data.attendance.map((entry) => ({
-  sno: count++,
-  employeeId: entry.employeeId?.employeeId || "N/A",
-  name: entry.employeeId?.userId?.name || "Unknown",
-  department: entry.employeeId?.department?.dep_name || "No Department",
-  action: (
-    <AttendanceHelper
-      status={entry.status}
-      employeeId={entry.employeeId?.employeeId || ""}
-      statusChange={fetchAttendance}
-    />
-  ),
-}));
+          sno: count++,
+          employeeId: entry.employeeId?.employeeId || "N/A",
+          name: entry.employeeId?.userId?.name || "Unknown",
+          department: entry.employeeId?.department?.dep_name || "No Department",
+          action: (
+            <AttendanceHelper
+              status={entry.status}
+              employeeId={entry.employeeId?.employeeId || ""}
+              statusChange={fetchAttendance}
+            />
+          ),
+        }));
 
         setAttendance(formatted);
         setFilteredAttendance(formatted);
@@ -51,21 +51,20 @@ const Attendance = () => {
   const handleFilter = (e) => {
     const value = e.target.value.toLowerCase();
     const filtered = attendance.filter((emp) =>
-      emp.department.toLowerCase().includes(value)
+      emp.department.toLowerCase().includes(value),
     );
     setFilteredAttendance(filtered);
   };
 
   if (!filteredAttendance)
-    return (
-      <div className="p-8 text-center text-lg">Loading...</div>
-    );
+    return <div className="p-8 text-center text-lg">Loading...</div>;
 
   return (
-    
     <div className="lg:pl-64 min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-teal-500 to-cyan-500 p-6 rounded-xl text-white shadow-lg mb-8">
-        <h2 className="text-3xl font-bold text-center">📅 Attendance  Dashboard</h2>
+        <h2 className="text-3xl font-bold text-center">
+          📅 Attendance Dashboard
+        </h2>
         <p className="text-center mt-2 text-lg">
           Easily manage and track employee attendance
         </p>
@@ -92,39 +91,38 @@ const Attendance = () => {
         </Link>
       </div>
 
-     {/* Desktop DataTable - visible md and up */}
-<div className="hidden md:block bg-white border rounded-xl shadow-lg p-4 max-w-full overflow-x-auto">
-  <DataTable
-    columns={columns}
-    data={filteredAttendance}
-    progressPending={loading}
-    pagination
-    highlightOnHover
-    dense
-    customStyles={{
-      rows: {
-        style: {
-          minHeight: "56px",
-        },
-      },
-      headCells: {
-        style: {
-          backgroundColor: "#f3f4f6",
-          fontWeight: "bold",
-        },
-      },
-      tableWrapper: {
-        style: {
-          // Ensure table can scroll horizontally if needed
-          display: 'block',
-          overflowX: 'auto',
-          whiteSpace: 'nowrap',
-        },
-      },
-    }}
-  />
-</div>
-
+      {/* Desktop DataTable - visible md and up */}
+      <div className="hidden md:block bg-white border rounded-xl shadow-lg p-4 max-w-full overflow-x-auto">
+        <DataTable
+          columns={columns}
+          data={filteredAttendance}
+          progressPending={loading}
+          pagination
+          highlightOnHover
+          dense
+          customStyles={{
+            rows: {
+              style: {
+                minHeight: "56px",
+              },
+            },
+            headCells: {
+              style: {
+                backgroundColor: "#f3f4f6",
+                fontWeight: "bold",
+              },
+            },
+            tableWrapper: {
+              style: {
+                // Ensure table can scroll horizontally if needed
+                display: "block",
+                overflowX: "auto",
+                whiteSpace: "nowrap",
+              },
+            },
+          }}
+        />
+      </div>
 
       {/* Mobile List View - visible below md */}
       <div className="md:hidden">

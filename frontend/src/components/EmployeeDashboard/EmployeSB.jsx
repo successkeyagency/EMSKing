@@ -100,7 +100,13 @@ const EmployeSB = () => {
       </nav>
 
       <div className="hidden md:block mt-[70px] text-center text-xs  text-green-900 italic">
-        Created by <a href="https://successkeyagency.com" className="underline hover:text-green-700">SuccessKeyAgency</a>
+        Created by{" "}
+        <a
+          href="https://successkeyagency.com"
+          className="underline hover:text-green-700"
+        >
+          SuccessKeyAgency
+        </a>
       </div>
     </>
   );

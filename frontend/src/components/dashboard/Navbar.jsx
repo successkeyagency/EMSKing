@@ -1,14 +1,13 @@
-import React from 'react';
-import { useAuth } from '../../context/authContext';
-import { FiLogOut, FiMenu } from 'react-icons/fi';
-import { assets } from '../../assets/assets';
+import React from "react";
+import { useAuth } from "../../context/authContext";
+import { FiLogOut, FiMenu } from "react-icons/fi";
+import { assets } from "../../assets/assets";
 
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useAuth();
 
   return (
     <header className="bg-blue-600 text-white shadow-md h-16 flex justify-between items-center px-6 w-full mx-auto">
-      
       <button
         onClick={toggleSidebar}
         className="lg:hidden mr-4 text-white text-2xl focus:outline-none"
@@ -17,14 +16,13 @@ const Navbar = ({ toggleSidebar }) => {
         <FiMenu />
       </button>
 
-   
-<div className="flex items-center flex-1">
-  <img
-    src={assets.EMSKing_Logo}
-    alt="SuccessKey Agency Logo"
-    className="h-10 w-auto sm:h-14 md:h-16 mr-4"
-  />
-</div>
+      <div className="flex items-center flex-1">
+        <img
+          src={assets.EMSKing_Logo}
+          alt="SuccessKey Agency Logo"
+          className="h-10 w-auto sm:h-14 md:h-16 mr-4"
+        />
+      </div>
 
       <div className="flex items-center gap-5">
         <div className="hidden sm:block text-right">

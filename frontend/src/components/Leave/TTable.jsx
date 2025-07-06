@@ -19,21 +19,20 @@ const TTable = () => {
       if (response.data.success) {
         let count = 1;
         const transformed = response.data.leaves.map((leave) => ({
-  _id: leave._id,
-  sno: count++,
-  employeeId: leave.employeeId?.employeeId || "N/A",
-  name: leave.employeeId?.userId?.name || "Unknown",
-  leaveType: leave.leaveType || "N/A",
-  department: leave.employeeId?.department?.dep_name || "No Department",
-  days:
-    Math.ceil(
-      (new Date(leave.endDate) - new Date(leave.startDate)) /
-        (1000 * 60 * 60 * 24)
-    ) + 1,
-  status: leave.status,
-  action: <LeaveButtons Id={leave._id} />,
-}));
-
+          _id: leave._id,
+          sno: count++,
+          employeeId: leave.employeeId?.employeeId || "N/A",
+          name: leave.employeeId?.userId?.name || "Unknown",
+          leaveType: leave.leaveType || "N/A",
+          department: leave.employeeId?.department?.dep_name || "No Department",
+          days:
+            Math.ceil(
+              (new Date(leave.endDate) - new Date(leave.startDate)) /
+                (1000 * 60 * 60 * 24),
+            ) + 1,
+          status: leave.status,
+          action: <LeaveButtons Id={leave._id} />,
+        }));
 
         setLeaves(transformed);
         setFilteredLeaves(transformed);
@@ -52,7 +51,7 @@ const TTable = () => {
   const handleSearch = (e) => {
     const keyword = e.target.value.toLowerCase();
     const filtered = leaves.filter((leave) =>
-      leave.employeeId.toLowerCase().includes(keyword)
+      leave.employeeId.toLowerCase().includes(keyword),
     );
     setFilteredLeaves(filtered);
   };
@@ -84,9 +83,8 @@ const TTable = () => {
                     : setFilteredLeaves(
                         leaves.filter(
                           (leave) =>
-                            leave.status.toLowerCase() ===
-                            status.toLowerCase()
-                        )
+                            leave.status.toLowerCase() === status.toLowerCase(),
+                        ),
                       )
                 }
                 className="px-3 py-1.5 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-700 text-white shadow-md"
@@ -118,8 +116,8 @@ const TTable = () => {
                       leave.status === "Approved"
                         ? "bg-green-100 text-green-700"
                         : leave.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-red-100 text-red-700"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
                     }`}
                   >
                     {leave.status}

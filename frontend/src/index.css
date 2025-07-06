@@ -20,7 +20,7 @@
   height: 6px;
 }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #3b82f6; 
+  background-color: #3b82f6;
   border-radius: 4px;
 }
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -47,4 +47,3 @@
 .rgb-glow {
   animation: rgb-glow 3s linear infinite;
 }
-

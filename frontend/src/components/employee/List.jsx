@@ -1,44 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { EmployeeButtons, columns } from '../../utils/EmployeeHelper';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { EmployeeButtons, columns } from "../../utils/EmployeeHelper";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const List = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [theme, setTheme] = useState('light');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     const loadEmployeeData = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/api/employee', {
+        const res = await axios.get("http://localhost:4000/api/employee", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
         if (res.data.success) {
           let count = 1;
-         const formatted = res.data.employees.map((emp) => ({
-  _id: emp._id,
-  sno: count++,
-  name: emp.userId?.name || "Unknown",
-  dep_name: emp.department?.dep_name || "No Department",
-  dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
-  profileImageUrl: emp.userId?.profileImage
-    ? `http://localhost:4000/${emp.userId.profileImage}`
-    : "/default-profile.png", // fallback image
-}));
-
+          const formatted = res.data.employees.map((emp) => ({
+            _id: emp._id,
+            sno: count++,
+            name: emp.userId?.name || "Unknown",
+            dep_name: emp.department?.dep_name || "No Department",
+            dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
+            profileImageUrl: emp.userId?.profileImage
+              ? `http://localhost:4000/${emp.userId.profileImage}`
+              : "/default-profile.png", // fallback image
+          }));
 
           setEmployees(formatted);
         }
       } catch (err) {
         console.error(err.message);
-        toast.error('❌ Failed to fetch employee data.');
+        toast.error("❌ Failed to fetch employee data.");
       } finally {
         setLoading(false);
       }
@@ -52,12 +51,12 @@ const List = () => {
   };
 
   const filteredEmployees = employees.filter((emp) =>
-    emp.name.toLowerCase().includes(searchTerm)
+    emp.name.toLowerCase().includes(searchTerm),
   );
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    const newTheme = theme === "light" ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
     setTheme(newTheme);
   };
 
@@ -95,7 +94,7 @@ const List = () => {
               onClick={toggleTheme}
               className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-1.5 text-xs rounded-md"
             >
-              {theme === 'light' ? '🌙' : '☀️'}
+              {theme === "light" ? "🌙" : "☀️"}
             </button>
           </div>
         </div>
@@ -128,7 +127,9 @@ const List = () => {
                     <h2 className="font-semibold text-sm text-orange-600 dark:text-orange-400 truncate">
                       {emp.name}
                     </h2>
-                    <p className="text-xs text-gray-600 dark:text-gray-300">{emp.dep_name}</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-300">
+                      {emp.dep_name}
+                    </p>
                     <p className="text-[11px] text-gray-500 dark:text-gray-400">
                       DOB: {emp.dob}
                     </p>
