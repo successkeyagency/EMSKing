@@ -29,8 +29,8 @@ const List = () => {
             dep_name: emp.department?.dep_name || "No Department",
             dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
             profileImageUrl: emp.userId?.profileImage
-              ? `http://localhost:4000/${emp.userId.profileImage}`
-              : "/default-profile.png", // fallback image
+              ? `https://emsking-backend-server.vercel.app/${emp.userId.profileImage}`
+              : "/default-profile.png", 
           }));
 
           setEmployees(formatted);
