@@ -21,10 +21,10 @@ export const DepartmentButtons = ({ Id, onDepartmentDelete, isDemoUser }) => {
   const navigate = useNavigate();
 
   const handleDelete = async (id) => {
-    if (isDemoUser) {
-      alert("🚫 This is a demo account. Deleting departments is disabled.");
-      return;
-    }
+    // if (isDemoUser) {
+    //   alert("🚫 This is a demo account. Deleting departments is disabled.");
+    //   return;
+    // }
 
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this department?",

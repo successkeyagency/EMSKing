@@ -1,4 +1,4 @@
-const readOnlyEmails = ["BossMan@gmail.com", "testerapp2232@gmail.com"];
+const readOnlyEmails = ["testerapp2232@gmail.com"];
 
 const restrictDemoUser = (req, res, next) => {
   const userEmail = req.user?.email;

@@ -54,10 +54,10 @@ const Add = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isDemoUser) {
-      alert("🚫 This is a demo account. Adding employees is disabled.");
-      return;
-    }
+    // if (isDemoUser) {
+    //   alert("🚫 This is a demo account. Adding employees is disabled.");
+    //   return;
+    // }
 
     setSubmitting(true);
     setError("");
@@ -114,11 +114,11 @@ const Add = () => {
           </div>
         )}
 
-        {isDemoUser && (
+        {/* {isDemoUser && (
           <div className="sm:col-span-2 mb-4 bg-yellow-100 text-yellow-700 border border-yellow-400 px-4 py-3 rounded font-semibold text-center">
             🚫 Demo account: You can't add employees.
           </div>
-        )}
+        )} */}
 
         <form
           onSubmit={handleSubmit}

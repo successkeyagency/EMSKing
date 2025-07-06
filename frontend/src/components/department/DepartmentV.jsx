@@ -87,7 +87,7 @@ const DepartmentV = () => {
         <DepartmentButtons
           Id={row._id}
           onDepartmentDelete={onDepartmentDelete}
-          isDemoUser={isDemoUser}
+          // isDemoUser={isDemoUser}
         />
       ),
       ignoreRowClick: true,
@@ -175,7 +175,7 @@ const DepartmentV = () => {
                 <DepartmentButtons
                   Id={dep._id}
                   onDepartmentDelete={onDepartmentDelete}
-                  isDemoUser={isDemoUser}
+                  // isDemoUser={isDemoUser}
                 />
               </div>
             </div>
