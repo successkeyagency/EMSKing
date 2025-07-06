@@ -15,7 +15,7 @@ yarn-error.log*
 Thumbs.db
 
 # Uploaded files (optional)
-uploads/
+
 
 # Coverage reports (if you run tests)
 coverage/
