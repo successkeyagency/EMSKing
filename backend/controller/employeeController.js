@@ -2,19 +2,10 @@ import multer from "multer";
 import Employee from "../models/Employee.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import path from "path";
 import Department from "../models/Department.js";
+import { storage } from "../config/cloudinary.js";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage });
+const upload = multer({ storage }); // ✅ Use Cloudinary storage
 
 const addEmployee = async (req, res) => {
   try {
@@ -32,11 +23,11 @@ const addEmployee = async (req, res) => {
       role,
     } = req.body;
 
-    const user = await User.findOne({ email });
-    if (user) {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
       return res
         .status(400)
-        .json({ success: false, error: "user already registered in emp" });
+        .json({ success: false, error: "User already exists." });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -46,8 +37,9 @@ const addEmployee = async (req, res) => {
       email,
       password: hashPassword,
       role,
-      profileImage: req.file ? req.file.filename : "",
+      profileImage: req.file ? req.file.path : "", // ✅ Cloudinary gives full URL
     });
+
     const savedUser = await newUser.save();
 
     const newEmployee = new Employee({
@@ -62,12 +54,15 @@ const addEmployee = async (req, res) => {
     });
 
     await newEmployee.save();
-    return res.status(200).json({ success: true, message: "employee created" });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Employee created successfully." });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res
       .status(500)
-      .json({ success: false, error: "server error in adding employee" });
+      .json({ success: false, error: "Server error while adding employee." });
   }
 };
 
@@ -76,31 +71,33 @@ const getEmployees = async (req, res) => {
     const employees = await Employee.find()
       .populate("userId", { password: 0 })
       .populate("department");
+
     return res.status(200).json({ success: true, employees });
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, error: "get employees server error" });
+      .json({ success: false, error: "Server error while fetching employees." });
   }
 };
 
 const getEmployee = async (req, res) => {
   const { id } = req.params;
   try {
-    let employee;
-    employee = await Employee.findById({ _id: id })
+    let employee = await Employee.findById(id)
       .populate("userId", { password: 0 })
       .populate("department");
-      if(!employee) {
-        employee = await Employee.findOne({ userId: id })
-      .populate("userId", { password: 0 })
-      .populate("department");
-      }
+
+    if (!employee) {
+      employee = await Employee.findOne({ userId: id })
+        .populate("userId", { password: 0 })
+        .populate("department");
+    }
+
     return res.status(200).json({ success: true, employee });
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, error: "get employees server error" });
+      .json({ success: false, error: "Server error while fetching employee." });
   }
 };
 
@@ -109,38 +106,39 @@ const updateEmployee = async (req, res) => {
     const { id } = req.params;
     const { name, maritalStatus, designation, department, salary } = req.body;
 
-    const employee = await Employee.findById({ _id: id });
+    const employee = await Employee.findById(id);
     if (!employee) {
       return res
         .status(404)
-        .json({ success: false, error: "employee not found" });
+        .json({ success: false, error: "Employee not found." });
     }
-    const user = await User.findById({_id: employee.userId})
 
+    const user = await User.findById(employee.userId);
     if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, error: "user not found" });
-      }
+      return res
+        .status(404)
+        .json({ success: false, error: "User not found." });
+    }
 
-      const updateUser = await User.findByIdAndUpdate({_id: employee.userId}, {name})
-      const updateEmployee = await Employee.findByIdAndUpdate({_id: id}, {
-        maritalStatus,
-        designation, salary, department
-      })
+    const updatedUser = await User.findByIdAndUpdate(
+      employee.userId,
+      { name },
+      { new: true }
+    );
 
-      if(!updateEmployee || !updateUser) {
-        return res
-          .status(404)
-          .json({ success: false, error: "document not found" });
-      }
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      { maritalStatus, designation, salary, department },
+      { new: true }
+    );
 
-      return res.status(200).json({success: true, message: "employee update"})
-
+    return res
+      .status(200)
+      .json({ success: true, message: "Employee updated successfully." });
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, error: "update employees server error" });
+      .json({ success: false, error: "Server error while updating employee." });
   }
 };
 
@@ -148,12 +146,23 @@ const fetchEmployeesByDepId = async (req, res) => {
   const { id } = req.params;
   try {
     const employees = await Employee.find({ department: id })
+      .populate("userId", { password: 0 })
+      .populate("department");
+
     return res.status(200).json({ success: true, employees });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, error: "get employeesbyDepId server error" });
+    return res.status(500).json({
+      success: false,
+      error: "Server error while fetching employees by department.",
+    });
   }
-}
+};
 
-export { addEmployee, upload, getEmployees, getEmployee, updateEmployee, fetchEmployeesByDepId };
+export {
+  upload,
+  addEmployee,
+  getEmployees,
+  getEmployee,
+  updateEmployee,
+  fetchEmployeesByDepId,
+};

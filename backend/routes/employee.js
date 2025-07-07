@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 router.get('/', authMiddleware, getEmployees);
-router.post('/add', authMiddleware, restrictDemoUser, upload.single('image'), addEmployee);
+router.post('/add', authMiddleware, restrictDemoUser, upload.single('profileImage'), addEmployee);
 router.get('/:id', authMiddleware, getEmployee);
 router.put('/:id', authMiddleware, restrictDemoUser, updateEmployee);
 router.get('/department/:id', authMiddleware, fetchEmployeesByDepId);
