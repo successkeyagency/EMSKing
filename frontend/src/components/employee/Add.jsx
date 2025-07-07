@@ -17,7 +17,7 @@ const Add = () => {
     salary: "",
     password: "",
     role: "",
-    image: null,
+    profileImage: null,
   });
   const [userEmail, setUserEmail] = useState("");
   const [error, setError] = useState("");
@@ -63,9 +63,12 @@ const Add = () => {
     setError("");
 
     const formPayload = new FormData();
-    for (const key in formData) {
-      if (formData[key]) formPayload.append(key, formData[key]);
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+  if (value !== null && value !== "") {
+    formPayload.append(key, value);
+  }
+});
+
 
     try {
       const res = await axios.post(
@@ -248,7 +251,7 @@ const Add = () => {
             </label>
             <input
               type="file"
-              name="image"
+              name="profileImage"
               id="image"
               accept="image/*"
               onChange={handleChange}
