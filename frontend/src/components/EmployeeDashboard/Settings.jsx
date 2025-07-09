@@ -42,6 +42,7 @@ const Settings = () => {
 
     try {
       const response = await axios.put(
+        // "http://localhost:4000/api/setting/change-password",
         "https://emsking-backend-server.vercel.app/api/setting/change-password",
         setting,
         {

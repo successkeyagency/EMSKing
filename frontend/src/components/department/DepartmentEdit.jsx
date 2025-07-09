@@ -29,6 +29,7 @@ const DepartmentEdit = () => {
       setDepLoading(true);
       try {
         const { data } = await axios.get(
+          // `http://localhost:4000/api/department/${id}`,
           `https://emsking-backend-server.vercel.app/api/department/${id}`,
           {
             headers: {
@@ -70,7 +71,8 @@ const DepartmentEdit = () => {
     setSubmitLoading(true);
     try {
       const { data } = await axios.put(
-        `https://emsking-backend-server.vercel.app/api/department/${id}`,
+        `http://localhost:4000/api/department/${id}`,
+        // `https://emsking-backend-server.vercel.app/api/department/${id}`,
         department,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

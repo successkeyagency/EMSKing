@@ -15,10 +15,12 @@ const AttendanceReport = () => {
       if (dateFilter) query.append("date", dateFilter);
 
       const res = await axios.get(
+        // `http://localhost:4000/api/attendance/report?${query.toString()}`,
         `https://emsking-backend-server.vercel.app/api/attendance/report?${query.toString()}`,
+
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
+        }
       );
 
       if (res.data.success) {

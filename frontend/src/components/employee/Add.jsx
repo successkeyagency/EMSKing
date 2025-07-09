@@ -64,15 +64,17 @@ const Add = () => {
 
     const formPayload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-  if (value !== null && value !== "") {
-    formPayload.append(key, value);
-  }
+  if (value !== null && value !== undefined) {
+  formPayload.append(key, value);
+}
+
 });
 
 
     try {
       const res = await axios.post(
-        "https://emsking-backend-server.vercel.app/api/employee/add",
+        // "http://localhost:4000/api/employee/add",
+         "https://emsking-backend-server.vercel.app/api/employee/add",
         formPayload,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
