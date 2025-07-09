@@ -62,7 +62,7 @@ const TAdd = () => {
       } else {
         setError(err.response?.data?.error || "Something went wrong 😓");
       }
-      setTimeout(() => setError(""), 4000); // auto-clear after 4s
+      setTimeout(() => setError(""), 4000); 
     }
   };
 
