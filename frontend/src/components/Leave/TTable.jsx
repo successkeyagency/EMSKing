@@ -10,7 +10,9 @@ const TTable = () => {
   const fetchLeaves = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://emsking-backend-server.vercel.app/api/leave", {
+      // const response = await axios.get("http://localhost:4000/api/leave",
+        const response = await axios.get("https://emsking-backend-server.vercel.app/api/leave",  
+        {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

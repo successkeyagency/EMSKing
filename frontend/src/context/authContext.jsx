@@ -14,6 +14,7 @@ const authContext = ({ children }) => {
         if (token) {
           const response = await axios.get(
             "https://emsking-backend-server.vercel.app/api/auth/verify",
+            // "http://localhost:4000/api/auth/verify",
             {
               headers: {
                 Authorization: `Bearer ${token}`,

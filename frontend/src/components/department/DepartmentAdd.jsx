@@ -42,6 +42,7 @@ const DepartmentAdd = () => {
 
     try {
       const response = await axios.post(
+        // "http://localhost:4000/api/department/add",
         "https://emsking-backend-server.vercel.app/api/department/add",
         department,
         {

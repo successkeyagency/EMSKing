@@ -14,7 +14,9 @@ const List = () => {
   useEffect(() => {
     const loadEmployeeData = async () => {
       try {
-        const res = await axios.get("https://emsking-backend-server.vercel.app/api/employee", {
+        // const res = await axios.get("http://localhost:4000/api/employee", 
+          const res = await axios.get("https://emsking-backend-server.vercel.app/api/employee", 
+          {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -22,16 +24,15 @@ const List = () => {
 
         if (res.data.success) {
           let count = 1;
-          const formatted = res.data.employees.map((emp) => ({
-            _id: emp._id,
-            sno: count++,
-            name: emp.userId?.name || "Unknown",
-            dep_name: emp.department?.dep_name || "No Department",
-            dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
-            profileImageUrl: emp.userId?.profileImage
-              ? `https://emsking-backend-server.vercel.app/${emp.userId.profileImage}`
-              : "/default-profile.png", 
-          }));
+         const formatted = res.data.employees.map((emp) => ({
+  _id: emp._id,
+  sno: count++,
+  name: emp.userId?.name || "Unknown",
+  dep_name: emp.department?.dep_name || "No Department",
+  dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
+  profileImageUrl: emp.userId?.profileImage || "/default-profile.png",
+}));
+
 
           setEmployees(formatted);
         }

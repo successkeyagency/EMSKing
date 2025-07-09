@@ -11,10 +11,14 @@ const View = () => {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin" || user?.email === "BossMan@gmail.com";
 
+  const [newImage, setNewImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
         const response = await axios.get(
+          // `http://localhost:4000/api/employee/${id}`,
           `https://emsking-backend-server.vercel.app/api/employee/${id}`,
           {
             headers: {
@@ -33,9 +37,49 @@ const View = () => {
     fetchEmployee();
   }, [id]);
 
+  const handleImageUpdate = async () => {
+    if (!newImage) return;
+
+    const formData = new FormData();
+    formData.append("profileImage", newImage);
+
+    setUploading(true);
+
+    try {
+      const res = await axios.put(
+        // `http://localhost:4000/api/employee/update-image/${employee._id}`,
+        `https://emsking-backend-server.vercel.app/api/employee/update-image/${employee._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (res.data.success) {
+        setEmployee((prev) => ({
+          ...prev,
+          userId: {
+            ...prev.userId,
+            profileImage: res.data.profileImage,
+          },
+        }));
+        setNewImage(null);
+      } else {
+        alert("Image update failed.");
+      }
+    } catch (err) {
+      alert("Error updating image.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div className={isAdmin ? "lg:pl-64" : ""}>
-      <div className=" min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         {employee ? (
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -48,9 +92,9 @@ const View = () => {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
-              <div className="flex justify-center">
+              <div className="flex flex-col justify-center items-center">
                 <img
-                  src={`http://localhost:4000/${employee.userId.profileImage}`}
+                  src={employee.userId.profileImage || "https://via.placeholder.com/150"}
                   alt={`${employee.userId.name} Profile`}
                   className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-cover rounded-full shadow-md ring-4 ring-orange-400"
                   onError={(e) => {
@@ -58,6 +102,24 @@ const View = () => {
                     e.target.alt = "Placeholder Image";
                   }}
                 />
+
+                {isAdmin && (
+                  <div className="mt-4 flex flex-col items-center gap-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setNewImage(e.target.files[0])}
+                      className="text-sm text-gray-600"
+                    />
+                    <button
+                      onClick={handleImageUpdate}
+                      disabled={!newImage || uploading}
+                      className="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition text-sm"
+                    >
+                      {uploading ? "Updating..." : "Update Image"}
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-4 text-gray-700 text-base sm:text-lg">
@@ -92,7 +154,7 @@ const View = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end items-center max-w-3xl mx-auto mt-10 px-4 gap-4">
-              {user?.role === "admin" && (
+              {isAdmin && (
                 <button
                   onClick={() => navigate("/admin-dashboard/employees")}
                   className="w-full sm:w-auto bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition"
@@ -101,7 +163,7 @@ const View = () => {
                 </button>
               )}
 
-              {user?.role === "admin" && (
+              {isAdmin && (
                 <button
                   onClick={() =>
                     navigate(`/admin-dashboard/employees/edit/${employee._id}`)

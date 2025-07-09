@@ -40,7 +40,9 @@ export const columns = [
 // Fetch departments for dropdowns
 export const fetchDepartments = async () => {
   try {
-    const response = await axios.get("https://emsking-backend-server.vercel.app/api/department", {
+    const response = await axios.get("https://emsking-backend-server.vercel.app/api/department", 
+    // const response = await axios.get("http://localhost:4000/api/department",
+      {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -62,6 +64,7 @@ export const fetchDepartments = async () => {
 export const getEmployees = async (id) => {
   try {
     const response = await axios.get(
+      // `http://localhost:4000/api/employee/department/${id}`,
       `https://emsking-backend-server.vercel.app/api/employee/department/${id}`,
       {
         headers: {

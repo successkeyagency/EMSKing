@@ -16,6 +16,7 @@ const View = () => {
     const getSalaries = async () => {
       try {
         const { data } = await axios.get(
+          // `http://localhost:4000/api/salary/${id}/${user.role}`,
           `https://emsking-backend-server.vercel.app/api/salary/${id}/${user.role}`,
           {
             headers: {

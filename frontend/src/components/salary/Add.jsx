@@ -67,6 +67,7 @@ const AddSalary = () => {
     try {
       const res = await axios.post(
         "https://emsking-backend-server.vercel.app/api/salary/add",
+        // "http://localhost:4000/api/salary/add",
         formData,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
