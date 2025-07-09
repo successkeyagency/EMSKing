@@ -1,187 +1,160 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { EmployeeButtons, columns } from "../../utils/EmployeeHelper";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const TDetail = () => {
-  const { id } = useParams();
-  const [leave, setLeave] = useState(null);
+const List = () => {
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      setUserEmail(payload.email);
-    }
-  }, []);
-
-  const isDemoUser =
-    userEmail === "BossMan@gmail.com" ||
-    userEmail === "testerapp2232@gmail.com";
-
-  useEffect(() => {
-    const loadLeaveDetails = async () => {
+    const loadEmployeeData = async () => {
       try {
-        const response = await axios.get(
-          `https://emsking-backend-server.vercel.app/api/leave/detail/${id}`,
+        const res = await axios.get(
+          // "http://localhost:4000/api/employee",
+          "https://emsking-backend-server.vercel.app/api/employee",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        if (response.data.success) {
-          setLeave(response.data.leave);
+
+        if (res.data.success) {
+          let count = 1;
+          const formatted = res.data.employees.map((emp) => ({
+            _id: emp._id,
+            sno: count++,
+            name: emp.userId?.name || "Unknown",
+            dep_name: emp.department?.dep_name || "No Department",
+            dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
+            profileImageUrl: emp.userId?.profileImage || null,
+          }));
+          setEmployees(formatted);
         }
-      } catch (error) {
-        console.error("Error fetching leave details:", error);
-        if (error.response?.data?.error) alert(error.response.data.error);
+      } catch (err) {
+        console.error(err.message);
+        toast.error("❌ Failed to fetch employee data.");
       } finally {
         setLoading(false);
       }
     };
 
-    loadLeaveDetails();
-  }, [id]);
+    loadEmployeeData();
+  }, []);
 
-  const handleStatusUpdate = async (leaveId, newStatus) => {
-    try {
-      const response = await axios.put(
-        `https://emsking-backend-server.vercel.app/api/leave/${leaveId}`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        navigate("/admin-dashboard/leaves");
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
-      if (error.response?.data?.error) alert(error.response.data.error);
-    }
+  const handleFilter = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
-  if (loading)
-    return (
-      <div className="text-center text-xl py-20">
-        ⏳ Loading leave details...
-      </div>
-    );
+  const filteredEmployees = employees.filter((emp) =>
+    emp.name.toLowerCase().includes(searchTerm)
+  );
 
-  if (!leave)
-    return (
-      <div className="text-center text-red-500 py-20">
-        ⚠️ No leave data found!
-      </div>
-    );
-
-  const profileImage =
-    leave.employeeId?.userId?.profileImage ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      leave.employeeId?.userId?.name || "User"
-    )}&background=CCFBF1&color=0F766E&size=256`;
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    setTheme(newTheme);
+  };
 
   return (
-    <div className="lg:pl-64">
-      <div className="max-w-4xl mx-auto px-4 mt-8">
-        <button
-          onClick={() => navigate("/admin-dashboard/leaves")}
-          className="mb-6 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800 transition shadow-md"
-        >
-          ⬅️ Return
-        </button>
-      </div>
+    <div className="lg:pl-64 min-h-screen bg-gray-50 dark:bg-gray-900 text-sm">
+      <section className="px-3 sm:px-5 md:px-6 py-6 max-w-[1600px] w-full mx-auto text-gray-800 dark:text-gray-100">
+        <ToastContainer />
 
-      <div className="max-w-4xl mx-auto mt-4 px-4 md:px-8 py-8 bg-white rounded-xl shadow-lg ring-1 ring-gray-200 animate-fadeIn">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-center mb-10 text-teal-600">
-          📝 Leave Details
-        </h1>
+        {/* Header */}
+        <div className="text-center mb-5">
+          <h1 className="text-xl font-semibold text-orange-600 dark:text-orange-400">
+            👥 Manage Employees
+          </h1>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            View and manage your team
+          </p>
+        </div>
 
-        {errorMsg && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded text-center mb-4">
-            {errorMsg}
-          </div>
-        )}
-
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start">
-          <img
-            src={profileImage}
-            alt={`${leave.employeeId?.userId?.name || "Employee"} profile`}
-            onError={(e) => {
-              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                leave.employeeId?.userId?.name || "User"
-              )}&background=CCFBF1&color=0F766E&size=256`;
-            }}
-            className="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-teal-400 object-cover shadow-md"
+        {/* Search + Actions */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="🔍 Search..."
+            onChange={handleFilter}
+            className="w-full sm:w-1/2 px-3 py-2 text-xs border border-orange-300 dark:border-orange-500 rounded-md bg-white dark:bg-gray-800 focus:ring-2 focus:ring-orange-400"
           />
-
-          <div className="flex-1 w-full space-y-5">
-            {[
-              ["Name", leave.employeeId?.userId?.name || "N/A"],
-              ["Employee ID", leave.employeeId?.employeeId || "N/A"],
-              ["Department", leave.employeeId?.department?.dep_name || "N/A"],
-              ["Leave Type", leave.leaveType || "N/A"],
-              ["Reason", leave.reason || "N/A"],
-              ["Start Date", new Date(leave.startDate).toLocaleDateString()],
-              ["End Date", new Date(leave.endDate).toLocaleDateString()],
-            ].map(([label, value]) => (
-              <div
-                key={label}
-                className="flex flex-col sm:flex-row sm:justify-between gap-1 border-b pb-2"
-              >
-                <span className="font-medium text-gray-600">{label}:</span>
-                <span className="text-gray-900">{value}</span>
-              </div>
-            ))}
-
-            <div className="pt-4">
-              <span className="font-semibold text-lg mr-4">
-                {leave.status.toLowerCase() === "pending"
-                  ? "Take Action:"
-                  : "Status:"}
-              </span>
-
-              {leave.status.toLowerCase() === "pending" ? (
-                <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                  <button
-                    onClick={() => handleStatusUpdate(leave._id, "Approved")}
-                    className="px-5 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md shadow-md transition"
-                  >
-                    ✅ Approve
-                  </button>
-                  <button
-                    onClick={() => handleStatusUpdate(leave._id, "Rejected")}
-                    className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md shadow-md transition"
-                  >
-                    ❌ Reject
-                  </button>
-                </div>
-              ) : (
-                <span
-                  className={`inline-block mt-2 px-4 py-1 rounded-full font-semibold text-white ${
-                    leave.status.toLowerCase() === "approved"
-                      ? "bg-green-600"
-                      : leave.status.toLowerCase() === "rejected"
-                      ? "bg-red-600"
-                      : "bg-yellow-500"
-                  }`}
-                >
-                  {leave.status}
-                </span>
-              )}
-            </div>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Link
+              to="/admin-dashboard/add-employee"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 text-xs rounded-md font-medium text-center"
+            >
+              ➕ Add
+            </Link>
+            <button
+              onClick={toggleTheme}
+              className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 px-3 py-1.5 text-xs rounded-md"
+            >
+              {theme === "light" ? "🌙" : "☀️"}
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* Card Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {loading && (
+            <p className="text-center text-gray-500 dark:text-gray-400 text-sm col-span-full">
+              Loading employees...
+            </p>
+          )}
+          {!loading && filteredEmployees.length === 0 && (
+            <p className="text-center text-gray-500 dark:text-gray-400 text-sm col-span-full">
+              No employees found.
+            </p>
+          )}
+          {!loading &&
+            filteredEmployees.map((emp) => {
+              const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                emp.name
+              )}&background=FFEDD5&color=EA580C&size=128`;
+
+              return (
+                <div
+                  key={emp._id}
+                  className="bg-orange-50 dark:bg-gray-800 rounded-md shadow-md p-4 flex flex-col gap-3 transition hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={emp.profileImageUrl || fallbackAvatar}
+                      alt="profile"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
+                      onError={(e) => {
+                        e.target.src = fallbackAvatar;
+                        e.target.alt = "Default Avatar";
+                      }}
+                    />
+                    <div className="truncate">
+                      <h2 className="font-semibold text-sm text-orange-600 dark:text-orange-400 truncate">
+                        {emp.name}
+                      </h2>
+                      <p className="text-xs text-gray-600 dark:text-gray-300">
+                        {emp.dep_name}
+                      </p>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                        DOB: {emp.dob}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-orange-200 dark:border-orange-700 flex justify-end">
+                    <EmployeeButtons Id={emp._id} />
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </section>
     </div>
   );
 };
 
-export default TDetail;
+export default List;
