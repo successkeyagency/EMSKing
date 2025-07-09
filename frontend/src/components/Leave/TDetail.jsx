@@ -27,13 +27,12 @@ const TDetail = () => {
     const loadLeaveDetails = async () => {
       try {
         const response = await axios.get(
-          // `http://localhost:4000/api/leave/detail/${id}`,
           `https://emsking-backend-server.vercel.app/api/leave/detail/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          },
+          }
         );
         if (response.data.success) {
           setLeave(response.data.leave);
@@ -50,24 +49,15 @@ const TDetail = () => {
   }, [id]);
 
   const handleStatusUpdate = async (leaveId, newStatus) => {
-    // if (isDemoUser) {
-    //   setErrorMsg(
-    //     "🚫 Demo users are not allowed to approve or reject leave requests.",
-    //   );
-    //   setTimeout(() => setErrorMsg(""), 4000);
-    //   return;
-    // }
-
     try {
       const response = await axios.put(
-        // `http://localhost:4000/api/leave/${leaveId}`,
         `https://emsking-backend-server.vercel.app/api/leave/${leaveId}`,
         { status: newStatus },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
       if (response.data.success) {
         navigate("/admin-dashboard/leaves");
@@ -117,9 +107,17 @@ const TDetail = () => {
 
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start">
             <img
-              src={`https://emsking-backend-server.vercel.app/${leave.employeeId.userId.profileImage}`}
-              alt={`${leave.employeeId.userId.name} profile`}
+              src={
+                leave.employeeId?.userId?.profileImage ||
+                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              }
+              alt={`${leave.employeeId?.userId?.name || "Employee"} profile`}
               className="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-teal-400 object-cover shadow-md"
+              onError={(e) => {
+                e.target.src =
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+                e.target.alt = "Default Avatar";
+              }}
             />
 
             <div className="flex-1 w-full space-y-5">
@@ -169,8 +167,8 @@ const TDetail = () => {
                       leave.status.toLowerCase() === "approved"
                         ? "bg-green-600"
                         : leave.status.toLowerCase() === "rejected"
-                          ? "bg-red-600"
-                          : "bg-yellow-500"
+                        ? "bg-red-600"
+                        : "bg-yellow-500"
                     }`}
                   >
                     {leave.status}
