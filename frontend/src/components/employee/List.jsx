@@ -14,26 +14,26 @@ const List = () => {
   useEffect(() => {
     const loadEmployeeData = async () => {
       try {
-        // const res = await axios.get("http://localhost:4000/api/employee", 
-          const res = await axios.get("https://emsking-backend-server.vercel.app/api/employee", 
+        const res = await axios.get(
+          // "http://localhost:4000/api/employee",
+          "https://emsking-backend-server.vercel.app/api/employee",
           {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (res.data.success) {
           let count = 1;
-         const formatted = res.data.employees.map((emp) => ({
-  _id: emp._id,
-  sno: count++,
-  name: emp.userId?.name || "Unknown",
-  dep_name: emp.department?.dep_name || "No Department",
-  dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
-  profileImageUrl: emp.userId?.profileImage || "/default-profile.png",
-}));
-
-
+          const formatted = res.data.employees.map((emp) => ({
+            _id: emp._id,
+            sno: count++,
+            name: emp.userId?.name || "Unknown",
+            dep_name: emp.department?.dep_name || "No Department",
+            dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
+            profileImageUrl: emp.userId?.profileImage || null,
+          }));
           setEmployees(formatted);
         }
       } catch (err) {
@@ -52,7 +52,7 @@ const List = () => {
   };
 
   const filteredEmployees = employees.filter((emp) =>
-    emp.name.toLowerCase().includes(searchTerm),
+    emp.name.toLowerCase().includes(searchTerm)
   );
 
   const toggleTheme = () => {
@@ -113,34 +113,44 @@ const List = () => {
             </p>
           )}
           {!loading &&
-            filteredEmployees.map((emp) => (
-              <div
-                key={emp._id}
-                className="bg-orange-50 dark:bg-gray-800 rounded-md shadow-md p-4 flex flex-col gap-3 transition hover:shadow-lg"
-              >
-                <div className="flex items-center gap-4">
-                  <img
-                    src={emp.profileImageUrl}
-                    alt="profile"
-                    className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
-                  />
-                  <div className="truncate">
-                    <h2 className="font-semibold text-sm text-orange-600 dark:text-orange-400 truncate">
-                      {emp.name}
-                    </h2>
-                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                      {emp.dep_name}
-                    </p>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                      DOB: {emp.dob}
-                    </p>
+            filteredEmployees.map((emp) => {
+              const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                emp.name
+              )}&background=FFEDD5&color=EA580C&size=128`;
+
+              return (
+                <div
+                  key={emp._id}
+                  className="bg-orange-50 dark:bg-gray-800 rounded-md shadow-md p-4 flex flex-col gap-3 transition hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={emp.profileImageUrl || fallbackAvatar}
+                      alt="profile"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
+                      onError={(e) => {
+                        e.target.src = fallbackAvatar;
+                        e.target.alt = "Default Avatar";
+                      }}
+                    />
+                    <div className="truncate">
+                      <h2 className="font-semibold text-sm text-orange-600 dark:text-orange-400 truncate">
+                        {emp.name}
+                      </h2>
+                      <p className="text-xs text-gray-600 dark:text-gray-300">
+                        {emp.dep_name}
+                      </p>
+                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                        DOB: {emp.dob}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-orange-200 dark:border-orange-700 flex justify-end">
+                    <EmployeeButtons Id={emp._id} />
                   </div>
                 </div>
-                <div className="pt-2 border-t border-orange-200 dark:border-orange-700 flex justify-end">
-                  <EmployeeButtons Id={emp._id} />
-                </div>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </section>
     </div>
