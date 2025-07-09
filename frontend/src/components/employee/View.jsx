@@ -18,13 +18,13 @@ const View = () => {
     const fetchEmployee = async () => {
       try {
         const response = await axios.get(
-          // `http://localhost:4000/api/employee/${id}`,
           `https://emsking-backend-server.vercel.app/api/employee/${id}`,
+          // `http://localhost:4000/api/employee/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          },
+          }
         );
         if (response.data.success) {
           setEmployee(response.data.employee);
@@ -47,8 +47,8 @@ const View = () => {
 
     try {
       const res = await axios.put(
-        // `http://localhost:4000/api/employee/update-image/${employee._id}`,
         `https://emsking-backend-server.vercel.app/api/employee/update-image/${employee._id}`,
+        // `http://localhost:4000/api/employee/update-image/${employee._id}`,
         formData,
         {
           headers: {
@@ -77,6 +77,13 @@ const View = () => {
     }
   };
 
+  const getImageSrc = () => {
+    const imageUrl = employee?.userId?.profileImage;
+    return imageUrl && imageUrl.startsWith("http")
+      ? imageUrl
+      : `https://ui-avatars.com/api/?name=${encodeURIComponent(employee?.userId?.name || "User")}&background=F97316&color=fff&bold=true&size=256&rounded=true`;
+  };
+
   return (
     <div className={isAdmin ? "lg:pl-64" : ""}>
       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -94,13 +101,9 @@ const View = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
               <div className="flex flex-col justify-center items-center">
                 <img
-                  src={employee.userId.profileImage || "https://via.placeholder.com/150"}
+                  src={getImageSrc()}
                   alt={`${employee.userId.name} Profile`}
                   className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-cover rounded-full shadow-md ring-4 ring-orange-400"
-                  onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/150";
-                    e.target.alt = "Placeholder Image";
-                  }}
                 />
 
                 {isAdmin && (

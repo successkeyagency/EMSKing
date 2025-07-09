@@ -117,7 +117,7 @@ const TDetail = () => {
 
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start">
             <img
-              src={`http://localhost:4000/${leave.employeeId.userId.profileImage}`}
+              src={`https://emsking-backend-server.vercel.app/${leave.employeeId.userId.profileImage}`}
               alt={`${leave.employeeId.userId.name} profile`}
               className="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-teal-400 object-cover shadow-md"
             />
